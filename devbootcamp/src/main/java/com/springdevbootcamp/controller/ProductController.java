@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,22 +28,37 @@ public class ProductController {
 	@Autowired
 	ProductService productService;
 
-	@GetMapping(path = "/products", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Product> getAllProducts() {
-		return productRepository.findAll();
-	}
+	
+	 @GetMapping(path = "/products", produces = MediaType.APPLICATION_JSON_VALUE)
+	  public List<Product> getAllProducts() { return productRepository.findAll(); }
+	 
 
 	
 	@GetMapping(path = "/products/{id}")
 	public ResponseEntity<Product> get(@PathVariable Integer id){
 		
 		try {
+			 
 			  Product product = productService.get(id);
 			  return new ResponseEntity<Product>(product, HttpStatus.OK);
 			
 		}catch (NoSuchElementException e) {
 			return new ResponseEntity<Product>(HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	@GetMapping(path = "/products")
+	public ResponseEntity<Product> create(@RequestBody Product product){		
+		try {
+			
+			  Product product1 = productService.save(product);
+			  return new ResponseEntity<Product>(product1, HttpStatus.OK);
+			
+		}catch (NoSuchElementException e) {
+			return new ResponseEntity<Product>(HttpStatus.NOT_FOUND);
+		}
+		
+		
 	}
 
 }
