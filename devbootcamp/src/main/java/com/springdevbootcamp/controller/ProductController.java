@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,8 +58,22 @@ public class ProductController {
 		}catch (NoSuchElementException e) {
 			return new ResponseEntity<Product>(HttpStatus.NOT_FOUND);
 		}
-		
-		
 	}
+	
+	  @DeleteMapping (path = "/products/{id}")
+	  public String  deleteProduct(@PathVariable Integer id){ 
+		   try {
+			     productService.delete(id);
+	             return "deleted successfully";
+	       }catch (Exception e) { 
+	    	       e.printStackTrace();
+	               return "issue in deleting"; 
+	       }
+	 }
+	 
+		
+				
+		
+	
 
 }

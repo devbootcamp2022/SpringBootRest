@@ -22,4 +22,8 @@ public class ProductService {
 	public Product save(Product product) {
 		return prodRepo.save(product);
 	}
+	
+	public void delete(Integer id) {
+		 prodRepo.deleteById(id);
+	}
 }
